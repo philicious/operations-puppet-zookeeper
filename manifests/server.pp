@@ -5,11 +5,9 @@
 # $::zookeeper::hosts array.
 #
 # == Parameters
-# $jmx_port            - JMX port.    Set this to false if you don't want to expose JMX.
 # $log_file            - zookeeper.log file.    Default: /var/log/zookeeper/zookeeper.log
 #
 class zookeeper::server(
-    $jmx_port         = $::zookeeper::defaults::jmx_port,
     $log_file         = $::zookeeper::defaults::log_file,
     $default_template = $::zookeeper::defaults::default_template,
     $log4j_template   = $::zookeeper::defaults::log4j_template
@@ -19,18 +17,13 @@ class zookeeper::server(
     Class['zookeeper'] -> Class['zookeeper::server']
 
     # Install zookeeper server package
-    package { 'zookeeperd':
+    package { 'zookeeper-server':
         ensure    => $::zookeeper::version,
-    }
-
-    file { '/etc/default/zookeeper':
-        content => template($default_template),
-        require => Package['zookeeperd'],
     }
 
     file { '/etc/zookeeper/conf/log4j.properties':
         content => template($log4j_template),
-        require => Package['zookeeperd'],
+        require => Package['zookeeper'],
     }
 
     file { $::zookeeper::data_dir:
@@ -50,17 +43,17 @@ class zookeeper::server(
         target  => '/etc/zookeeper/conf/myid',
     }
 
-    service { 'zookeeper':
+    service { 'zookeeper-server':
         ensure     => running,
         require    => [
-            Package['zookeeperd'],
+            Package['zookeeper-server'],
+            Package['zookeeper'],
             File[ $::zookeeper::data_dir],
             File["${::zookeeper::data_dir}/myid"],
         ],
         hasrestart => true,
         hasstatus  => true,
         subscribe  => [
-            File['/etc/default/zookeeper'],
             File['/etc/zookeeper/conf/zoo.cfg'],
             File['/etc/zookeeper/conf/myid'],
             File['/etc/zookeeper/conf/log4j.properties'],
