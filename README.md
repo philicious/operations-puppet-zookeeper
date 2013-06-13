@@ -8,8 +8,10 @@ This fork brings CDH4 support along with Redhat support
 
 Installs and configures a Zookeeper client and/or Zookeeper server.
 
-This module has been implemented and tested on Ubuntu Precise, and uses
-the Zookeeper package in upstream Debian/Ubuntu repositories.
+This module has been implemented and tested on CentOS6, and uses
+the Zookeeper package in upstream RedHat repositories.
+As the forks origin was made for Debian/Ubuntu its likely to work there, 
+yet untested. If someone tries it and reports, I'll fix hickups.
 
 # Usage
 
