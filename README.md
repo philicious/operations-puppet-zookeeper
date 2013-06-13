@@ -1,3 +1,9 @@
+```
+Based on the Zookeeper module by wikimedia. Thanks!
+
+This fork brings CDH4 support along with Redhat support
+```
+
 # Puppet Zookeeper Module
 
 Installs and configures a Zookeeper client and/or Zookeeper server.
