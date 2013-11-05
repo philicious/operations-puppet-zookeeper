@@ -46,7 +46,7 @@ class zookeeper::server(
 
     # replace the generated myid file with a link to /etc/zookeepeer/conf/
     file { '/etc/zookeeper/conf/myid':
-        content => $myid,
+        content => "${myid}",
     }
     file { "${::zookeeper::data_dir}/myid":
         ensure  => 'link',
